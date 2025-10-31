@@ -1,0 +1,45 @@
+# Secrets and sensitive files
+*.key
+*.pem
+*.crt
+*.cert
+*.p12
+secrets/
+*.secret
+*.secret.yaml
+*.secret.yml
+
+# Environment files with actual values
+.env
+.env.local
+*.env
+values.yaml
+!values.yaml.template
+
+# Orbit configuration with actual values
+orbit/config.yaml
+
+# Kubernetes config
+kubeconfig
+kubeconfig.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+

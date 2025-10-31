@@ -1,0 +1,82 @@
+# WarpStream Orbit YAML configuration file.
+# Based on: https://docs.warpstream.com/warpstream/kafka/orbit#orbit-configuration
+#
+# Copy this file to config.yaml and configure with your actual values
+# DO NOT commit config.yaml to git (it's in .gitignore)
+
+source_bootstrap_brokers:
+    # List of source Kafka cluster brokers
+    # These nodes should belong to the same source Kafka cluster.
+    # Orbit does not (currently) support replicating from multiple source Kafka clusters.
+    # For Strimzi Kafka, use: my-cluster-kafka-bootstrap.kafka.svc:9092
+    - hostname: my-cluster-kafka-bootstrap.kafka.svc
+      port: 9092
+    # You can add more brokers if needed:
+    # - hostname: my-cluster-kafka-brokers-0.kafka.svc
+    #   port: 9092
+
+source_cluster_credentials:
+    # Username, password, and mechanism are optional and should be
+    # omitted if SASL is not required to connect to the source cluster.
+    #
+    # Set username/password as environment variables in the WarpStream Agents
+    # with an ORBIT_ prefix. For example, if you set:
+    #   sasl_username_env: SASL_USERNAME
+    # Then the environment variable should be: ORBIT_SASL_USERNAME
+    #
+    # Uncomment and configure if your source cluster requires SASL:
+    # sasl_username_env: SASL_USERNAME_ENV_VAR
+    # sasl_password_env: SASL_PASSWORD_ENV_VAR
+    # sasl_mechanism: plain
+    
+    # Independent of whether SASL is enabled, set this to true or
+    # false based on whether the source cluster has TLS enabled.
+    use_tls: false
+    
+    # Whether TLS verification should be skipped.
+    tls_insecure_skip_verify: false
+
+topic_mappings:
+    # Regex patterns to match topics from source cluster
+    # Topics are matched in order, so more specific patterns should come first
+    - source_regex: osk-topic-.*  # Match all topics starting with "osk-topic-"
+      # Optional prefix added to topic names when they're replicated.
+      # Leave this empty if you want topics replicated to WarpStream
+      # to have the exact same name as they did in the source cluster.
+      destination_prefix: ""
+      # Set to true to start fetching from the latest offset (end of topic)
+      # Set to false to start from the beginning of the topic (or earliest available offset)
+      begin_fetch_at_latest_offset: false
+      # Set to true to disable Orbit management for this topic (irreversible)
+      # This allows regular Kafka clients to write to the topic after migration
+      irreversible_disable_orbit_management: false
+
+cluster_config:
+    # Don't copy cluster configs from source (topic auto topic creation
+    # policy, default partition count, etc).
+    copy_source_cluster_configuration: false
+
+consumer_groups:
+    # Optional prefix added to consumer group names when they're
+    # replicated. Leave this empty if you want consumer groups replicated
+    # to WarpStream to have the exact same name as they did in the source
+    # cluster.
+    destination_group_prefix: ""
+    
+    # Whether consumer groups and their corresponding offsets
+    # should be copied or not.
+    copy_offsets_enabled: true
+
+warpstream:
+    # Used to control the rate at which Orbit will consume from
+    # the source Kafka topic. Higher values will increase
+    # throughput, but put more load on the source cluster.
+    # This is a global setting across all Agents.
+    cluster_fetch_concurrency: 2
+    
+    # Optional: Configure fetch limits to reduce memory usage if needed
+    # fetch_config:
+    #   # Reduced from default of 104857600 (100MB)
+    #   fetch_max_bytes: 52428800
+    #   # Reduced from default of 52428800 (50MB)
+    #   fetch_max_partition_bytes: 26214400

@@ -1,0 +1,23 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: kafka-brokers
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: my-cluster
+spec:
+  replicas: 2
+  roles:
+    - broker
+  storage:
+    type: persistent-claim
+    size: 20Gi
+    deleteClaim: false
+  resources:
+    requests:
+      cpu: "300m"
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 2Gi
+

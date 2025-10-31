@@ -1,0 +1,32 @@
+# WarpStream Agent Helm Values Template
+# Copy this file to values.yaml and fill in your actual values
+# DO NOT commit values.yaml to git (it's in .gitignore)
+
+config:
+  # Your S3-compatible bucket URL
+  bucketURL: "YOUR_BUCKET_URL"
+  
+  # Your WarpStream agent key (keep this secret!)
+  agentKey: "YOUR_AGENT_KEY"
+  
+  # AWS region or S3-compatible region
+  region: "us-east-1"
+  
+  # Your WarpStream virtual cluster ID
+  virtualClusterID: "YOUR_VIRTUAL_CLUSTER_ID"
+
+# Optional: Override default image settings
+# image:
+#   repository: warpstream/agent
+#   tag: latest
+#   pullPolicy: IfNotPresent
+
+# Optional: Resource limits
+# resources:
+#   limits:
+#     cpu: 2
+#     memory: 4Gi
+#   requests:
+#     cpu: 1
+#     memory: 2Gi
+
