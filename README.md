@@ -41,9 +41,9 @@ This project demonstrates how to migrate from a self-managed Kafka cluster (usin
 │  │  │  Operator  │  │          │  │ WarpStream     │  │     │
 │  │  └────────────┘  │          │  │ Agent (Orbit)  │  │     │
 │  │       │          │          │  └────────────────┘  │     │
-│  │       ▼          │          │          │           │     │
+│  │       ▼          │          │          ▲           │     │
 │  │  ┌────────────┐  │          │          │           │     │
-│  │  │  Kafka     │  │◄─────────┼──────────┘           │     │
+│  │  │  Kafka     │  │-─────────┼──────────┘           │     │
 │  │  │  Cluster   │  │  Replication                    │     │
 │  │  │  (KRaft)   │  │          │                      │     |
 │  │  └────────────┘  │          |                      │     │
